@@ -1,0 +1,45 @@
+resource "docker_volume" "n8n_data" {
+  name = "n8n_data"
+}
+
+resource "docker_image" "n8n" {
+  name         = var.n8n_image
+  keep_locally = false
+}
+
+resource "docker_container" "n8n" {
+  name    = var.n8n_container_name
+  image   = docker_image.n8n.image_id
+  restart = "unless-stopped"
+
+  env = [
+    "DB_TYPE=postgresdb",
+    "DB_POSTGRESDB_HOST=postgres",
+    "DB_POSTGRESDB_PORT=${var.postgres_port}",
+    "DB_POSTGRESDB_DATABASE=${var.postgres_db}",
+    "DB_POSTGRESDB_USER=${var.postgres_user}",
+    "DB_POSTGRESDB_PASSWORD=${var.postgres_password}",
+    "N8N_PORT=${var.n8n_port}",
+    "N8N_HOST=${local.effective_n8n_host}",
+  ]
+
+  mounts {
+    target = "/home/node/.n8n"
+    source = docker_volume.n8n_data.name
+    type   = "volume"
+  }
+
+  networks_advanced {
+    name    = docker_network.n8n.name
+    aliases = ["n8n"]
+  }
+
+  ports {
+    internal = 5678
+    external = var.n8n_port
+  }
+
+  depends_on = [
+    docker_container.postgres
+  ]
+}
