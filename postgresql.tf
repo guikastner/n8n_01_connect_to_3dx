@@ -28,9 +28,4 @@ resource "docker_container" "postgres" {
     name    = docker_network.n8n.name
     aliases = ["postgres"]
   }
-
-  ports {
-    internal = 5432
-    external = var.postgres_port
-  }
 }

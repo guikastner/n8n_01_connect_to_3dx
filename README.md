@@ -24,8 +24,8 @@ OpenTofu stack that spins up three Docker containers on the same network (n8n, P
 | `postgres_user` | Postgres user used by n8n. | `n8n` |
 | `postgres_password` | Postgres password. | _no default_ |
 | `postgres_db` | Postgres database name. | `n8n` |
-| `postgres_port` | Postgres port exposed on the host. | `5432` |
-| `n8n_port` | n8n port exposed on the host. | `5678` |
+| `postgres_port` | Internal Postgres port (container); not published on host. | `5432` |
+| `n8n_port` | Internal n8n port (container/tunnel); not published on host. | `5678` |
 | `n8n_host` | Host used by n8n to build public URLs. | `null` |
 | `n8n_container_name` | n8n container name. | `n8n` |
 | `n8n_image` | n8n Docker image. | `n8nio/n8n:1.66.1` |
@@ -42,8 +42,8 @@ tofu apply
 ```
 
 ## Outputs
-- `n8n_service`: public hostname, port, container name, and image for n8n.
-- `postgres_service`: container, image, port, and basic credentials (without password) for Postgres.
+- `n8n_service`: public hostname, internal port, container name, and image for n8n.
+- `postgres_service`: container, image, internal port, and basic credentials (without password) for Postgres.
 - `cloudflared_connector`: cloudflared container, tunnel name/ID, provisioned CNAME, and target.
 - `cloudflare_dns`: DNS record details created in Cloudflare (name, type, proxied).
 - `docker_network`: Docker network name shared by the services.

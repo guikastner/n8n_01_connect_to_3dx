@@ -34,11 +34,6 @@ resource "docker_container" "n8n" {
     aliases = ["n8n"]
   }
 
-  ports {
-    internal = 5678
-    external = var.n8n_port
-  }
-
   depends_on = [
     docker_container.postgres
   ]

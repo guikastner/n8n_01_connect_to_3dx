@@ -60,13 +60,13 @@ variable "postgres_db" {
 }
 
 variable "postgres_port" {
-  description = "Porta do Postgres exposta no host."
+  description = "Porta interna do Postgres (uso entre containers; não é publicada no host)."
   type        = number
   default     = 5432
 }
 
 variable "n8n_port" {
-  description = "Porta do n8n exposta no host."
+  description = "Porta interna do n8n (uso entre containers/túnel; não é publicada no host)."
   type        = number
   default     = 5678
 }
