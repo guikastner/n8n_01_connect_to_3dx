@@ -4,7 +4,7 @@ resource "docker_volume" "postgres_data" {
 
 resource "docker_image" "postgres" {
   name         = var.postgres_image
-  keep_locally = false
+  keep_locally = var.keep_images_locally
 }
 
 resource "docker_container" "postgres" {

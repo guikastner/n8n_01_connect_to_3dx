@@ -29,6 +29,7 @@ OpenTofu stack that spins up three Docker containers on the same network (n8n, P
 | `n8n_host` | Host used by n8n to build public URLs. | `null` |
 | `n8n_container_name` | n8n container name. | `n8n` |
 | `n8n_image` | n8n Docker image. | `n8nio/n8n:1.66.1` |
+| `keep_images_locally` | If true, keeps Docker images locally (disables auto cleanup). | `false` |
 | `postgres_container_name` | Postgres container name. | `n8n-postgres` |
 | `postgres_image` | Postgres Docker image. | `postgres:15-alpine` |
 | `cloudflared_container_name` | cloudflared container name. | `n8n-cloudflared` |

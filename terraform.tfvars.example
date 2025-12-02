@@ -10,6 +10,7 @@ cloudflare_catch_all_ingress_service = "http://n8n:5678"
 # Containers / imagens
 n8n_container_name         = "n8n"
 n8n_image                  = "n8nio/n8n:1.66.1"
+keep_images_locally        = false
 postgres_container_name    = "n8n-postgres"
 postgres_image             = "postgres:15-alpine"
 cloudflared_container_name = "cloudflared-n8n"

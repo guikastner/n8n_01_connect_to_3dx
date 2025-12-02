@@ -1,6 +1,6 @@
 resource "docker_image" "cloudflared" {
   name         = var.cloudflared_image
-  keep_locally = false
+  keep_locally = var.keep_images_locally
 }
 
 resource "docker_container" "cloudflared" {

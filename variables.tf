@@ -89,6 +89,12 @@ variable "n8n_image" {
   default     = "n8nio/n8n:1.66.1"
 }
 
+variable "keep_images_locally" {
+  description = "Se true, mantém as imagens Docker localmente (desativa limpeza automática)."
+  type        = bool
+  default     = false
+}
+
 variable "postgres_container_name" {
   description = "Nome do container do Postgres."
   type        = string

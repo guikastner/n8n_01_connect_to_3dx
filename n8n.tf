@@ -4,7 +4,7 @@ resource "docker_volume" "n8n_data" {
 
 resource "docker_image" "n8n" {
   name         = var.n8n_image
-  keep_locally = false
+  keep_locally = var.keep_images_locally
 }
 
 resource "docker_container" "n8n" {
