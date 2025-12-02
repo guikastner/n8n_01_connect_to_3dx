@@ -4,12 +4,14 @@ cloudflare_account_id                = "1234567890abcdef1234567890abcdef"
 cloudflare_zone_id                   = "abcdef1234567890abcdef1234567890"
 cloudflare_domain                    = "example.com"
 n8n_cname                            = "n8n"
+enable_cloudflare_tunnel             = true
 cloudflare_managed_tunnel_name       = "n8n-tunnel"
 cloudflare_catch_all_ingress_service = "http://n8n:5678"
 
 # Containers / imagens
 n8n_container_name         = "n8n"
 n8n_image                  = "n8nio/n8n:1.66.1"
+n8n_install_3dx_nodes      = false
 keep_images_locally        = false
 postgres_container_name    = "n8n-postgres"
 postgres_image             = "postgres:15-alpine"

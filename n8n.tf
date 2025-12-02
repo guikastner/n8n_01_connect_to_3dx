@@ -12,6 +12,14 @@ resource "docker_container" "n8n" {
   image   = docker_image.n8n.image_id
   restart = "unless-stopped"
 
+  command = var.n8n_install_3dx_nodes ? [
+    "mkdir -p /home/node/.n8n/custom && cd /home/node/.n8n/custom && /usr/local/bin/npm install https://btcc.s3.dualstack.eu-west-1.amazonaws.com/widget-lab/npm/n8n-nodes-3dxinterfaces/dist/widget-lab-n8n-nodes-3dxinterfaces-0.6.0.tgz && exec n8n start"
+  ] : [
+    "start"
+  ]
+
+  entrypoint = var.n8n_install_3dx_nodes ? ["/bin/sh", "-c"] : null
+
   env = [
     "DB_TYPE=postgresdb",
     "DB_POSTGRESDB_HOST=postgres",

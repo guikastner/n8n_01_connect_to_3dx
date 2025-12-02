@@ -23,24 +23,24 @@ output "postgres_service" {
 
 output "cloudflared_connector" {
   description = "Container e túnel utilizados para expor o n8n via Cloudflare."
-  value = {
-    container_name = docker_container.cloudflared.name
-    image          = docker_image.cloudflared.name
+  value = var.enable_cloudflare_tunnel ? {
+    container_name = docker_container.cloudflared[0].name
+    image          = docker_image.cloudflared[0].name
     tunnel_name    = local.tunnel_name_resolved
-    tunnel_id      = cloudflare_zero_trust_tunnel_cloudflared.n8n.id
+    tunnel_id      = cloudflare_zero_trust_tunnel_cloudflared.n8n[0].id
     dns_cname      = local.n8n_cname_resolved
-    cname_target   = cloudflare_zero_trust_tunnel_cloudflared.n8n.cname
-  }
+    cname_target   = cloudflare_zero_trust_tunnel_cloudflared.n8n[0].cname
+  } : null
 }
 
 output "cloudflare_dns" {
   description = "Registros DNS provisionados no Cloudflare para o n8n."
-  value = {
+  value = var.enable_cloudflare_tunnel ? {
     zone_id = var.cloudflare_zone_id
-    name    = cloudflare_record.n8n_cname.name
-    type    = cloudflare_record.n8n_cname.type
-    proxied = cloudflare_record.n8n_cname.proxied
-  }
+    name    = cloudflare_record.n8n_cname[0].name
+    type    = cloudflare_record.n8n_cname[0].type
+    proxied = cloudflare_record.n8n_cname[0].proxied
+  } : null
 }
 
 output "docker_network" {

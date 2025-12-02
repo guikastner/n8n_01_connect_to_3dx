@@ -12,19 +12,22 @@ provider "cloudflare" {
 }
 
 resource "random_password" "cloudflare_tunnel_secret" {
+  count = var.enable_cloudflare_tunnel ? 1 : 0
   length           = 64
   special          = false
 }
 
 resource "cloudflare_zero_trust_tunnel_cloudflared" "n8n" {
+  count      = var.enable_cloudflare_tunnel ? 1 : 0
   account_id = var.cloudflare_account_id
   name       = local.tunnel_name_resolved
-  secret     = base64encode(random_password.cloudflare_tunnel_secret.result)
+  secret     = base64encode(random_password.cloudflare_tunnel_secret[0].result)
 }
 
 resource "cloudflare_zero_trust_tunnel_cloudflared_config" "n8n" {
+  count = var.enable_cloudflare_tunnel ? 1 : 0
   account_id = var.cloudflare_account_id
-  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.n8n.id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.n8n[0].id
 
   config {
     ingress_rule {
@@ -39,10 +42,11 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "n8n" {
 }
 
 resource "cloudflare_record" "n8n_cname" {
+  count   = var.enable_cloudflare_tunnel ? 1 : 0
   zone_id = var.cloudflare_zone_id
   name    = local.n8n_cname_resolved
   type    = "CNAME"
-  content = cloudflare_zero_trust_tunnel_cloudflared.n8n.cname
+  content = cloudflare_zero_trust_tunnel_cloudflared.n8n[0].cname
   proxied = true
 
   depends_on = [cloudflare_zero_trust_tunnel_cloudflared_config.n8n]
